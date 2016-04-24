@@ -31,27 +31,39 @@ var numbersArr = [1, 4, 7, 3, 6];
 /*This function sorts arrays using an arbitrary comparator. You pass it a comparator and an array of objects appropriate for that comparator and it will return a new array which is sorted with the largest object in index 0 and the smallest in the last index*/
 function sortArr( comparator, array ){
     /*your code here*/
-    console.log("\nBefore sort:");
+    //console.log("\nBefore sort:");
 
-    var funcArray = array;
+    var funcArray = array.slice();
 
-    for (var i = 0; i < array.length; i++) {
+    /*for (var i = 0; i < 6; i++) {
       console.log(funcArray[i]);
+    }*/
+
+    var len = funcArray.length;
+
+    // Sorting Method: Bubble Sort Algorithm
+    for (var i = 0; i < len; i++) {
+      for (var j = 0; j < len - i - 1; j++) {
+        if (!comparator(funcArray[j], funcArray[j+1])) {
+          var temp = funcArray[j];
+          funcArray[j] = funcArray[j+1];
+          funcArray[j+1] = temp;
+        }
+      }
     }
 
+    //console.log("\nAfter sort:");
 
-
-    console.log("\nAfter sort:");
-
-    for (var k = 0; k < array.length; k++) {
+    /*for (var k = 0; k < 6; k++) {
       console.log(funcArray[k]);
-    }
+    }*/
+
     return funcArray;
 }
 
 /*A comparator takes two arguments and uses some algorithm to compare them. If the first argument is larger or greater than the 2nd it returns true, otherwise it returns false. Here is an example that works on integers*/
 function exComparator( int1, int2){
-    if (int1 > int2){
+    if (int1 >= int2){
         return true;
     } else {
         return false;
@@ -63,7 +75,7 @@ function exComparator( int1, int2){
 /*This compares two automobiles based on their year. Newer cars are "greater" than older cars.*/
 function yearComparator( auto1, auto2){
     /* your code here*/
-    if (auto1.year > auto2.year) {
+    if (auto1.year >= auto2.year) {
       return true;
     }
     else {
@@ -78,7 +90,7 @@ function makeComparator( auto1, auto2){
     var one = auto1.make.toUpperCase();
     var two = auto2.make.toUpperCase();
 
-    if (auto1.make < auto2.make) {
+    if (auto1.make <= auto2.make) {
       return true;
     }
     else {
@@ -91,36 +103,39 @@ function makeComparator( auto1, auto2){
 function typeComparator( auto1, auto2){
     /* your code here*/
     var one = auto1.type.toUpperCase();
-    var two = auto1.type.toUpperCase();
+    var two = auto2.type.toUpperCase();
 
     var rankType = ["WAGON", "SUV", "PICKUP", "ROADSTER"];
 
+    /*
     console.log("index of ROADSTER: " + rankType.indexOf("ROADSTER"));
     console.log("index of PICKUP: " + rankType.indexOf("PICKUP"));
     console.log("index of ROADSTER: " + rankType.indexOf("ROADSTER"));
     console.log("index of SUV: " + rankType.indexOf("SUV"));
     console.log("index of WAGON: " + rankType.indexOf("WAGON"));
     console.log("index of SEDAN: " + rankType.indexOf("SEDAN"));
+    */
 
-    console.log("First comparison:" + auto1.type + " vs. " + auto2.type);
-    if (rankType.indexOf(auto1.type) > rankType.indexOf(auto2.type)) {
-      console.log(auto1.type + " greater than " + auto2.type);
+    //console.log("First comparison:" + auto1.type + " vs. " + auto2.type);
+    //console.log("Rank type:" + rankType.indexOf(one) + " Rank type 2:" + rankType.indexOf(two));
+    if (rankType.indexOf(one) > rankType.indexOf(two)) {
+      //console.log(auto1.type + " greater than " + auto2.type);
       return true;
     }
-    else if ( rankType.indexOf(auto1.type) == rankType.indexOf(auto2.type) ) {
-      console.log("auto types are equal");
-      if (auto1.year > auto2.year) {
-        console.log(auto1.year + " greater than " + auto2.year);
+    else if ( rankType.indexOf(one) == rankType.indexOf(two) ) {
+      //console.log("auto types are equal");
+      if (auto1.year >= auto2.year) {
+        //console.log(auto1.year + " greater than " + auto2.year);
         return true;
       }
       else {
-        console.log(auto1.year + " less than " + auto2.year);
+        //console.log(auto1.year + " less than " + auto2.year);
         return false;
       }
     }
 
     else {
-      console.log(auto1.type + " less than " + auto2.type);
+      //console.log(auto1.type + " less than " + auto2.type);
       return false;
     }
 
@@ -133,11 +148,15 @@ Each line representing a car should be produced via a logMe function. This funct
 */
 
 console.log('*****');
-console.log('\nExample:');
 
-sortArr(exComparator, numbersArr);
+/*sortArr(exComparator, numbersArr);
+sortArr(yearComparator, automobiles);
+sortArr(makeComparator, automobiles);
+sortArr(typeComparator, automobiles);
+*/
 
-console.log("\n" + yearComparator(automobiles[0], automobiles[1]));
+
+/*console.log("\n" + yearComparator(automobiles[0], automobiles[1]));
 console.log(yearComparator(automobiles[1], automobiles[2]));
 console.log(yearComparator(automobiles[2], automobiles[3]));
 console.log(yearComparator(automobiles[3], automobiles[4]));
@@ -154,14 +173,16 @@ console.log(typeComparator(automobiles[1], automobiles[2]));
 console.log(typeComparator(automobiles[2], automobiles[3]));
 console.log(typeComparator(automobiles[3], automobiles[4]));
 console.log(typeComparator(automobiles[4], automobiles[5]));
+*/
 
 
 console.log('The cars sorted by year are:');
 /*(year make model of the 'greatest' car)
 (...)
 */
+
 for (var i = 0; i < automobiles.length; i++) {
-  automobiles[i].logMe('false');
+  (sortArr(yearComparator, automobiles))[i].logMe('false');
 }
 
 /*
@@ -172,9 +193,11 @@ console.log('\nThe cars sorted by make are:');
 /*(year make model of the 'greatest' car)
 (...)
 */
+
 for (var i = 0; i < automobiles.length; i++) {
-  automobiles[i].logMe('false');
+  (sortArr(makeComparator, automobiles))[i].logMe('false');
 }
+
 /*
 (year make model of the 'least' car)
 */
@@ -184,7 +207,7 @@ console.log('\nThe cars sorted by type are:');
 (...)
 */
 for (var i = 0; i < automobiles.length; i++) {
-  automobiles[i].logMe('true');
+  (sortArr(typeComparator, automobiles))[i].logMe('true');
 }
 /*
 (year make model type of the 'least' car)
